@@ -2,7 +2,7 @@
   "name": "communication-style",
   "displayName": "Communication Style",
   "version": "0.1.0",
-  "description": "On-demand mining of Cursor agent transcripts into learned rules for plan-mode planning and general coding replies. No stop hook—use the skill or communication-style-refresh agent when you want an update.",
+  "description": "Turn recurring preferences from your Cursor chats into user-level rules so plans and replies match how you work. On-demand skill and subagent mine local transcripts into ~/.cursor/rules (plan mode vs general replies). Base rule you edit; learned rule merges on refresh. No stop hook.",
   "author": {
     "name": "Casper Hsieh",
     "email": "chsieh7995@gmail.com"

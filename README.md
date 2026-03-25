@@ -4,6 +4,16 @@
 
 On-demand **skill** and **subagent** that incrementally mine `~/.cursor/projects/<workspace-slug>/agent-transcripts/*.jsonl` and merge stable preferences into **user-level** rules so they apply in **every project**. **No stop hook.**
 
+## Why this exists
+
+Assistant output varies by model and by task: plans can be too vague or too heavy, and day-to-day replies may not match how *you* like to read (structure, density, headings, how risks and verification show up). Generic defaults help, but they are not *your* defaults.
+
+This plugin closes part of that gap by turning **patterns from your real Cursor chats** into **always-on rules**—separate **base** standards you edit by hand and **learned** bullets the skill merges in when you refresh. You stay in control; nothing runs on a stop-hook cadence, so you refresh when it makes sense.
+
+**Personalization:** Preferences are inferred from what you actually say and correct across sessions (explicit instructions and repeated feedback carry more weight than one-off rants). That makes the assistant’s writing and planning **steadier for you** without pretending every model is identical.
+
+**Privacy:** Mining reads **local** Cursor transcript files on your machine under `~/.cursor/projects/.../agent-transcripts/`. Updates go to **`~/.cursor/rules/`** and a small **`~/.cursor/communication-style-index.json`** index. Do not commit secrets into chats; the skill is instructed to skip sensitive content.
+
 ## Install (Marketplace)
 
 If you installed this from the Cursor Marketplace, the components load automatically. **Note:** Since the plugin loads the skill globally, do **not** also copy the skill manually into `~/.cursor/skills/` or you may see duplicate entries.
