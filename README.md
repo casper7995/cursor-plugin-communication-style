@@ -1,5 +1,7 @@
 # Communication Style (Cursor plugin)
 
+**Repository:** [github.com/casper7995/cursor-plugin-communication-style](https://github.com/casper7995/cursor-plugin-communication-style)
+
 On-demand **skill** and **subagent** that incrementally mine `~/.cursor/projects/<workspace-slug>/agent-transcripts/*.jsonl` and merge stable preferences into **user-level** rules so they apply in **every project**. **No stop hook.**
 
 ## Install (Marketplace)
