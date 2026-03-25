@@ -1,0 +1,24 @@
+---
+description: Baseline standards for plan mode and general agent replies (hand-edited; not overwritten by automation).
+alwaysApply: true
+---
+
+# Communication (base)
+
+Edit this file yourself (user-level: **`~/.cursor/rules/`**). The **communication-style** skill updates only **`~/.cursor/rules/communication-learned.mdc`**.
+
+## Plan mode
+
+- Prefer concise plans proportional to task complexity; avoid over-engineering small changes.
+- Use clear structure (headings, ordered steps) when the task is multi-step.
+- Include verification steps when changes are easy to validate (tests, lint, manual checks).
+
+## General coding replies
+
+- Prefer precise, readable prose; avoid telegraphic shorthand.
+- When referencing existing code, use the project’s citation conventions.
+- Stay focused on what the user asked; avoid unnecessary tangents.
+
+## Shared preferences
+
+- Do not add engagement-bait closings unless the user asks for follow-ups.

@@ -1,0 +1,29 @@
+{
+  "name": "communication-style",
+  "displayName": "Communication Style",
+  "version": "0.1.0",
+  "description": "On-demand mining of Cursor agent transcripts into learned rules for plan-mode planning and general coding replies. No stop hook—use the skill or communication-style-refresh agent when you want an update.",
+  "author": {
+    "name": "Casper Hsieh",
+    "email": "chsieh7995@gmail.com"
+  },
+  "homepage": "https://github.com/casper7995/cursor-plugin-communication-style",
+  "repository": "https://github.com/casper7995/cursor-plugin-communication-style",
+  "license": "MIT",
+  "logo": "assets/logo.png",
+  "category": "developer-tools",
+  "tags": [
+    "productivity",
+    "memory",
+    "transcripts"
+  ],
+  "keywords": [
+    "communication",
+    "preferences",
+    "plan-mode",
+    "rules",
+    "transcripts",
+    "skills",
+    "agents"
+  ]
+}
