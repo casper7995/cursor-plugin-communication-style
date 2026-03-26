@@ -1,0 +1,15 @@
+---
+description: >-
+  Global communication: canonical rules live under ~/.cursor/rules/ (base + learned).
+  Communication Style plugin. Run /communication-style to refresh learned bullets.
+alwaysApply: true
+---
+
+# User-level communication (global)
+
+**Canonical files** (resolve `~` to your home directory; they apply in every project when present):
+
+- **`~/.cursor/rules/communication-base.mdc`** — baseline standards you edit; not overwritten by automation.
+- **`~/.cursor/rules/communication-learned.mdc`** — merged by **`/communication-style`** from **`~/.cursor/projects/*/agent-transcripts/*.jsonl`**.
+
+Honor those files for plan structure and reply style. On a new machine, copy **`templates/*.mdc`** from this plugin’s repo into **`~/.cursor/rules/`**, then run **`/communication-style`**.

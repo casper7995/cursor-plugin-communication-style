@@ -18,14 +18,18 @@ This plugin closes part of that gap by turning **patterns from your real Cursor 
 
 If you installed this from the Cursor Marketplace, the components load automatically. **Note:** Since the plugin loads the skill globally, do **not** also copy the skill manually into `~/.cursor/skills/` or you may see duplicate entries.
 
+The plugin declares **`rules`**, **`skills`**, and **`agents`** in `plugin.json` (same pattern as other Cursor plugins). That registers **Communication (global)** in **Cursor Settings → Rules, Skills, Subagents** so it is visible alongside file-based rules under **`~/.cursor/rules/`**.
+
+**Why Settings can look “empty”:** The **User → Rules** list is not the same as on-disk **`~/.cursor/rules/*.mdc`**. Cloud “User rules” you create with **+ New User Rule** live separately. Your **real** baseline and learned bullets should still live in **`~/.cursor/rules/`**; this plugin adds one **always-on** rule file (`rules/communication-user-global.mdc`) that points the Agent at those paths and shows up under the plugin’s rules.
+
 ## Manual User-level Install (Local)
 
 If you are pulling from this repo manually and want to install the components into your local `~/.cursor` tree instead of using a plugin link:
 
 | Artifact | Target Path |
 |----------|------|
-| Base rule (you edit) | `~/.cursor/rules/communication-base.mdc` |
-| Learned rule (skill updates) | `~/.cursor/rules/communication-learned.mdc` |
+| Base rule (you edit) | `~/.cursor/rules/communication-base.mdc` (copy from **`templates/communication-base.mdc`**) |
+| Learned rule (skill updates) | `~/.cursor/rules/communication-learned.mdc` (copy from **`templates/communication-learned.mdc`**, then run **`/communication-style`**) |
 | Transcript index | `~/.cursor/communication-style-index.json` |
 | Skill | Bundled with this plugin (also copy to `~/.cursor/skills/communication-style/` **only** if you are not loading the plugin) |
 | Subagent | `~/.cursor/agents/communication-style-refresh.md` |
@@ -39,22 +43,22 @@ The index is global: transcript paths are absolute, so one file tracks all works
 ```bash
 PLUGIN="/path/to/cursor-plugin-communication-style"
 mkdir -p ~/.cursor/rules ~/.cursor/skills ~/.cursor/agents
-cp -f "$PLUGIN/rules/"*.mdc ~/.cursor/rules/
+cp -f "$PLUGIN/templates/"*.mdc ~/.cursor/rules/
 cp -R "$PLUGIN/skills/communication-style" ~/.cursor/skills/
 cp -f "$PLUGIN/agents/communication-style-refresh.md" ~/.cursor/agents/
 ```
 
-Then **Developer: Reload Window**.
+Then **Developer: Reload Window** and run **`/communication-style`** once to seed **`communication-learned.mdc`** from transcripts.
 
 ## Usage
 
 Invoke **`/communication-style`** in Agent chat (if your build lists it), run the **communication-style-refresh** subagent, or ask the agent to follow the **communication-style** skill. Mining reads transcripts from **all** Cursor project folders under `~/.cursor/projects/`; **writes** always go to `~/.cursor/rules/` and `~/.cursor/communication-style-index.json`.
 
-## Cursor Settings → User → Rules (optional visibility)
+## Cursor Settings → User → Rules (optional)
 
-File-based rules in **`~/.cursor/rules/*.mdc`** may not appear in **Settings → Rules, Skills, Subagents → User → Rules** if you never created rules through that UI. They can still apply globally. To add a **visible** pointer without duplicating bullets, use **New User Rule** and paste a single line such as:
-
-> Global communication: follow `~/.cursor/rules/communication-base.mdc` and `communication-learned.mdc`; run **`/communication-style`** to refresh learned bullets from chats.
+- **Plugin rules:** With **`"rules": "./rules/"`** in `plugin.json`, **`communication-user-global.mdc`** should appear under this plugin in **Rules** (after **Developer: Reload Window**).
+- **Disk rules:** **`~/.cursor/rules/communication-base.mdc`** and **`communication-learned.mdc`** may still apply to Agent even when the **User** rules panel looks empty.
+- **Cloud user rules:** You can still add **New User Rule** with a one-line pointer if you want something only in the cloud list.
 
 ## Legacy project files
 
