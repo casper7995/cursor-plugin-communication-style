@@ -14,13 +14,36 @@ This plugin closes part of that gap by turning **patterns from your real Cursor 
 
 **Privacy:** Mining reads **local** Cursor transcript files on your machine under `~/.cursor/projects/.../agent-transcripts/`. Updates go to **`~/.cursor/rules/`** and a small **`~/.cursor/communication-style-index.json`** index. Do not commit secrets into chats; the skill is instructed to skip sensitive content.
 
+## Show up in Cursor Settings (User → Skills / Subagents)
+
+If **Settings → Rules, Skills, Subagents → User** lists things like **`agent-team-orchestration`** or **`changelog-review`** but **not** `communication-style`, that panel is pulling from **Claude Code’s paths** (`~/.claude/skills/`, `~/.claude/agents/`) when **Include third-party Plugins, Skills, and other configs** is ON. A repo sitting only under **`~/.cursor/plugins/local/...`** is **not** the same as an entry in that list until the plugin is installed through **Cursor’s plugin / Marketplace flow** (or you link into `~/.claude`).
+
+**Fix (recommended for local plugin installs):** symlink the skill and subagent into `~/.claude` so they appear next to your other skills:
+
+```bash
+chmod +x scripts/link-for-cursor-settings-ui.sh
+./scripts/link-for-cursor-settings-ui.sh
+```
+
+Or from anywhere (replace `PLUGIN` with your clone path):
+
+```bash
+bash /path/to/cursor-plugin-communication-style/scripts/link-for-cursor-settings-ui.sh
+```
+
+Then **Developer: Reload Window**.
+
+**Duplicate `/communication-style`:** If you later install this plugin from the **Cursor Marketplace** *and* keep these symlinks, you might see the skill twice — remove the symlinks in that case.
+
 ## Install (Marketplace)
 
-If you installed this from the Cursor Marketplace, the components load automatically. **Note:** Since the plugin loads the skill globally, do **not** also copy the skill manually into `~/.cursor/skills/` or you may see duplicate entries.
+If you installed this from the Cursor Marketplace, Cursor should load **`rules`**, **`skills`**, and **`agents`** from `plugin.json` without the `~/.claude` symlinks.
 
-The plugin declares **`rules`**, **`skills`**, and **`agents`** in `plugin.json` (same pattern as other Cursor plugins). That registers **Communication (global)** in **Cursor Settings → Rules, Skills, Subagents** so it is visible alongside file-based rules under **`~/.cursor/rules/`**.
+**Note:** Do not also keep a **second** copy of the same skill under **`~/.cursor/skills/communication-style/`** while the Marketplace plugin is enabled, or **`/communication-style`** may appear twice.
 
-**Why Settings can look “empty”:** The **User → Rules** list is not the same as on-disk **`~/.cursor/rules/*.mdc`**. Cloud “User rules” you create with **+ New User Rule** live separately. Your **real** baseline and learned bullets should still live in **`~/.cursor/rules/`**; this plugin adds one **always-on** rule file (`rules/communication-user-global.mdc`) that points the Agent at those paths and shows up under the plugin’s rules.
+The **User → Rules** panel that says **“No Rules Yet”** is for **cloud / UI-created** rules (**+ New User Rule**). It is **not** a mirror of **`~/.cursor/rules/*.mdc`**. Your global files there still apply to Agent. To populate that panel, click **New User Rule** and paste something short, for example:
+
+> Follow `~/.cursor/rules/communication-base.mdc` and `~/.cursor/rules/communication-learned.mdc` for plan and reply style; run **`/communication-style`** to refresh learned bullets.
 
 ## Manual User-level Install (Local)
 
@@ -50,15 +73,15 @@ cp -f "$PLUGIN/agents/communication-style-refresh.md" ~/.cursor/agents/
 
 Then **Developer: Reload Window** and run **`/communication-style`** once to seed **`communication-learned.mdc`** from transcripts.
 
+To list the skill under **Settings → User → Skills** (with third-party import ON), also run:
+
+```bash
+bash "$PLUGIN/scripts/link-for-cursor-settings-ui.sh"
+```
+
 ## Usage
 
 Invoke **`/communication-style`** in Agent chat (if your build lists it), run the **communication-style-refresh** subagent, or ask the agent to follow the **communication-style** skill. Mining reads transcripts from **all** Cursor project folders under `~/.cursor/projects/`; **writes** always go to `~/.cursor/rules/` and `~/.cursor/communication-style-index.json`.
-
-## Cursor Settings → User → Rules (optional)
-
-- **Plugin rules:** With **`"rules": "./rules/"`** in `plugin.json`, **`communication-user-global.mdc`** should appear under this plugin in **Rules** (after **Developer: Reload Window**).
-- **Disk rules:** **`~/.cursor/rules/communication-base.mdc`** and **`communication-learned.mdc`** may still apply to Agent even when the **User** rules panel looks empty.
-- **Cloud user rules:** You can still add **New User Rule** with a one-line pointer if you want something only in the cloud list.
 
 ## Legacy project files
 

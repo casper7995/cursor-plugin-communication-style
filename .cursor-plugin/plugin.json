@@ -1,7 +1,7 @@
 {
   "name": "communication-style",
   "displayName": "Communication Style",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Turn recurring preferences from your Cursor chats into user-level rules so plans and replies match how you work. On-demand skill and subagent mine local transcripts into ~/.cursor/rules (plan mode vs general replies). Base rule you edit; learned rule merges on refresh. No stop hook.",
   "author": {
     "name": "Casper Hsieh",
