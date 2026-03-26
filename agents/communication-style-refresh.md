@@ -1,9 +1,6 @@
 ---
 name: communication-style-refresh
-description: >-
-  Run the communication-style skill only—mine all Cursor project transcripts into
-  the user-level learned rule. Use when refreshing communication preferences from
-  past chats or syncing learned bullets.
+description: "Run the communication-style skill only—mine all Cursor project transcripts into the user-level learned rule. Use when refreshing communication preferences from past chats or syncing learned bullets."
 ---
 
 # Communication style refresh
