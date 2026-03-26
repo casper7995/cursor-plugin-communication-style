@@ -2,7 +2,7 @@
 
 **Repository:** [github.com/casper7995/cursor-plugin-communication-style](https://github.com/casper7995/cursor-plugin-communication-style)
 
-On-demand **skill** and **subagent** that incrementally mine `~/.cursor/projects/<workspace-slug>/agent-transcripts/*.jsonl` and merge stable preferences into **user-level** rules so they apply in **every project**. **No stop hook.**
+On-demand **skill** and **subagent** that incrementally mine **`*.jsonl`** under **every** `~/.cursor/projects/*/agent-transcripts/` and merge stable preferences into **user-level** rules so they apply in **every project**. **No stop hook.**
 
 ## Why this exists
 
@@ -27,12 +27,14 @@ If you are pulling from this repo manually and want to install the components in
 | Base rule (you edit) | `~/.cursor/rules/communication-base.mdc` |
 | Learned rule (skill updates) | `~/.cursor/rules/communication-learned.mdc` |
 | Transcript index | `~/.cursor/communication-style-index.json` |
-| Skill | `~/.cursor/skills/communication-style/SKILL.md` |
+| Skill | Bundled with this plugin (also copy to `~/.cursor/skills/communication-style/` **only** if you are not loading the plugin) |
 | Subagent | `~/.cursor/agents/communication-style-refresh.md` |
 
 The index is global: transcript paths are absolute, so one file tracks all workspaces.
 
-**One-shot manual install:**
+**Single source for the skill:** Use **either** the plugin (recommended) **or** a copy under `~/.cursor/skills/communication-style/` — **not both**, or **`/communication-style`** may appear twice.
+
+**One-shot manual install (no plugin):**
 
 ```bash
 PLUGIN="/path/to/cursor-plugin-communication-style"
@@ -46,7 +48,13 @@ Then **Developer: Reload Window**.
 
 ## Usage
 
-Invoke **`/communication-style`** in Agent chat (if your build lists it), run the **communication-style-refresh** subagent, or ask the agent to follow the **communication-style** skill. Mining uses the **current workspace** only to find transcripts; **writes** always go to `~/.cursor/rules/` and `~/.cursor/communication-style-index.json`.
+Invoke **`/communication-style`** in Agent chat (if your build lists it), run the **communication-style-refresh** subagent, or ask the agent to follow the **communication-style** skill. Mining reads transcripts from **all** Cursor project folders under `~/.cursor/projects/`; **writes** always go to `~/.cursor/rules/` and `~/.cursor/communication-style-index.json`.
+
+## Cursor Settings → User → Rules (optional visibility)
+
+File-based rules in **`~/.cursor/rules/*.mdc`** may not appear in **Settings → Rules, Skills, Subagents → User → Rules** if you never created rules through that UI. They can still apply globally. To add a **visible** pointer without duplicating bullets, use **New User Rule** and paste a single line such as:
+
+> Global communication: follow `~/.cursor/rules/communication-base.mdc` and `communication-learned.mdc`; run **`/communication-style`** to refresh learned bullets from chats.
 
 ## Legacy project files
 

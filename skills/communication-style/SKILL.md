@@ -2,11 +2,11 @@
 name: communication-style
 description: >-
   Incrementally extracts stable communication and planning preferences from Cursor
-  agent transcripts, then merges them into the user-level rule
-  ~/.cursor/rules/communication-learned.mdc (Plan mode vs General coding replies).
-  Use when the user asks to refresh communication style from chats, update learned
-  reply/plan rules, or run communication-style mining (including via the
-  communication-style-refresh agent).
+  agent transcripts across all local project workspaces, then merges them into the
+  user-level rule ~/.cursor/rules/communication-learned.mdc (Plan mode vs General
+  coding replies). Use when the user asks to refresh communication style from chats,
+  update learned reply/plan rules, or run communication-style mining (including via
+  the communication-style-refresh agent).
 ---
 
 # Communication style (transcript → learned rules)
@@ -17,10 +17,9 @@ Resolve `~` to the current user’s home directory for all paths below.
 
 ## Inputs
 
-- **Workspace root:** The folder Cursor has open (used only to locate transcripts for **this** project).
-- **Transcript root:** `~/.cursor/projects/<workspace-slug>/agent-transcripts/`
-  - Derive **`<workspace-slug>`** from the **absolute** workspace path: strip a leading `/`, replace every `/` and each run of spaces with a single `-` (e.g. `/Users/you/My Project` → `Users-you-My-Project`).
-  - If that folder does not exist, list `~/.cursor/projects/` and pick the subdirectory whose name best matches the workspace path, then use its `agent-transcripts` child.
+- **Transcript discovery (all workspaces):** Under **`~/.cursor/projects/`**, each immediate subdirectory is a Cursor project slug. For every `<slug>` where **`~/.cursor/projects/<slug>/agent-transcripts/`** exists, collect all **`*.jsonl`** files in that folder (non-recursive is typical; if files are nested one level deeper, search one level deep under `agent-transcripts` only).
+  - Use **absolute paths** for every transcript file in later steps.
+  - If **`~/.cursor/projects/`** is missing or no `agent-transcripts` folders exist, the transcript set is empty—still run index cleanup (workflow step 9) and respond appropriately.
 - **Existing base rule (read-only):** `~/.cursor/rules/communication-base.mdc`
 - **Existing learned rule (read/write):** `~/.cursor/rules/communication-learned.mdc`
 - **Incremental index (user-level, all workspaces):** `~/.cursor/communication-style-index.json`  
@@ -32,7 +31,7 @@ Resolve `~` to the current user’s home directory for all paths below.
 2. Read **`~/.cursor/rules/communication-base.mdc`** if it exists (for context only; do not modify).
 3. Read **`~/.cursor/rules/communication-learned.mdc`** if it exists; if missing, create it using the **Learned file template** below (preserve frontmatter).
 4. Load the incremental index from **`~/.cursor/communication-style-index.json`** if present. If the JSON is invalid or missing `version`, treat as empty and use `version: 1` and `transcripts: {}`.
-5. Discover all `*.jsonl` files under the transcript root (non-recursive is typical; if nested, search one level deep).
+5. Discover all `*.jsonl` files across **every** `~/.cursor/projects/*/agent-transcripts/` directory (per **Inputs**). Deduplicate by absolute path if the same file could appear twice.
 6. Process **only** transcripts where:
    - the absolute path is **not** in the index, or
    - the file’s current `mtimeMs` is **greater** than the indexed `mtimeMs`.
